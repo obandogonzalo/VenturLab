@@ -42,6 +42,9 @@ yarn-error.log*
 # material de trabajo
 /Material
 
+# credenciales SMTP (no subir a GitHub)
+/public/contact.php
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

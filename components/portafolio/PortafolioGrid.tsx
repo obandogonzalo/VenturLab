@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const categoryLabels: Record<string, string> = {
   branding: "Branding", uxui: "UX/UI", consultoria: "Consultoría",
@@ -14,10 +15,40 @@ type Case = {
   featured: boolean; publishedAt: string;
 };
 
+const mockupSets = [
+  [
+    "linear-gradient(135deg, #6427E3 0%, #3D52D5 100%)",
+    "linear-gradient(135deg, #3D52D5 0%, #7C6FF5 100%)",
+    "linear-gradient(135deg, #4A35D9 0%, #5A3EE8 100%)",
+  ],
+  [
+    "linear-gradient(135deg, #3D52D5 0%, #6427E3 100%)",
+    "linear-gradient(135deg, #6427E3 0%, #B625EF 100%)",
+    "linear-gradient(135deg, #5535D0 0%, #3D52D5 100%)",
+  ],
+  [
+    "linear-gradient(135deg, #5A3EE8 0%, #3D52D5 100%)",
+    "linear-gradient(135deg, #3D52D5 0%, #6427E3 100%)",
+    "linear-gradient(135deg, #6427E3 0%, #7C6FF5 100%)",
+  ],
+  [
+    "linear-gradient(135deg, #7C6FF5 0%, #6427E3 100%)",
+    "linear-gradient(135deg, #6427E3 0%, #3D52D5 100%)",
+    "linear-gradient(135deg, #3D52D5 0%, #4A35D9 100%)",
+  ],
+];
+
 export default function PortafolioGrid({ cases }: { cases: Case[] }) {
+  const [activeSlides, setActiveSlides] = useState<Record<string, number>>({});
+  const getSlide = (id: string) => activeSlides[id] ?? 0;
+  const setSlide = (id: string, idx: number) => setActiveSlides(prev => ({ ...prev, [id]: idx }));
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      {cases.map((c, i) => (
+      {cases.map((c, i) => {
+        const mockups = mockupSets[i % mockupSets.length];
+        const activeIdx = getSlide(c._id);
+        return (
         <motion.div
           key={c._id}
           initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
@@ -26,26 +57,81 @@ export default function PortafolioGrid({ cases }: { cases: Case[] }) {
           transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="card overflow-hidden group"
         >
-          {/* Cover placeholder */}
+          {/* Cover slideshow */}
           <div
-            className="h-52 relative overflow-hidden flex items-center justify-center"
-            style={{ background: "var(--bg-2)", borderBottom: "1px solid var(--border)" }}
+            className="h-52 relative overflow-hidden"
+            style={{ borderBottom: "1px solid var(--border)" }}
           >
-            <div
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              style={{ background: "radial-gradient(ellipse at center, rgba(124,111,245,0.08) 0%, transparent 70%)" }}
-            />
-            <div className="text-center relative z-10">
+            {/* Mockup slides */}
+            {mockups.map((bg, idx) => (
               <div
-                className="text-5xl font-bold"
-                style={{ color: "rgba(124,111,245,0.40)", fontFamily: "var(--font-space-grotesk)" }}
+                key={idx}
+                className="absolute inset-0 transition-opacity duration-500"
+                style={{ background: bg, opacity: idx === activeIdx ? 1 : 0 }}
               >
-                {c.client.substring(0, 2).toUpperCase()}
+                {/* Watermark */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span
+                    className="text-6xl font-bold select-none"
+                    style={{ color: "rgba(255,255,255,0.12)", fontFamily: "var(--font-space-grotesk)" }}
+                  >
+                    {c.client.substring(0, 2).toUpperCase()}
+                  </span>
+                </div>
+                {/* Grid pattern overlay */}
+                <div className="absolute inset-0" style={{
+                  backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }} />
               </div>
-              {c.featured && (
-                <span className="lab-tag text-[10px] mt-3 inline-flex">Destacado</span>
-              )}
+            ))}
+
+            {/* Featured badge */}
+            {c.featured && (
+              <span className="absolute top-3 left-3 z-10 lab-tag text-[10px]"
+                style={{ background: "rgba(255,255,255,0.15)", borderColor: "rgba(255,255,255,0.3)", color: "rgba(255,255,255,0.9)" }}>
+                Destacado
+              </span>
+            )}
+
+            {/* Slide dots */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+              {mockups.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSlide(c._id, idx)}
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    width: idx === activeIdx ? 16 : 6,
+                    height: 6,
+                    background: idx === activeIdx ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.4)",
+                  }}
+                  aria-label={`Imagen ${idx + 1}`}
+                />
+              ))}
             </div>
+
+            {/* Prev/Next arrows */}
+            <button
+              onClick={() => setSlide(c._id, (activeIdx - 1 + mockups.length) % mockups.length)}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: "rgba(0,0,0,0.3)" }}
+              aria-label="Anterior"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M7 2L3 6l4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button
+              onClick={() => setSlide(c._id, (activeIdx + 1) % mockups.length)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: "rgba(0,0,0,0.3)" }}
+              aria-label="Siguiente"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M5 2l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
 
           {/* Content */}
@@ -81,7 +167,8 @@ export default function PortafolioGrid({ cases }: { cases: Case[] }) {
             </div>
           </div>
         </motion.div>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -25,17 +25,17 @@ export default function MethodPreview() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
         >
           <div>
-            <p className="label-tag mb-4">Metodología</p>
+            <p className="label-tag mb-4">Cómo trabajamos</p>
             <h2 className="heading-lg" style={{ color: "var(--text-1)" }}>
-              El Método Ventur
+              Así trabajamos
             </h2>
           </div>
           <Link
-            href="/metodologia"
+            href="/nosotros"
             className="text-sm font-medium animated-underline self-start md:self-end"
             style={{ color: "var(--accent)", fontFamily: "var(--font-space-grotesk)" }}
           >
-            Ver metodología completa →
+            Conoce el equipo →
           </Link>
         </motion.div>
 
@@ -77,8 +77,8 @@ export default function MethodPreview() {
                 {/* Text */}
                 <div>
                   <div
-                    className="font-semibold mb-0.5"
-                    style={{ color: "var(--text-1)", fontFamily: "var(--font-space-grotesk)", fontSize: "0.9375rem" }}
+                    className="font-bold mb-0.5"
+                    style={{ color: "var(--accent)", fontFamily: "var(--font-space-grotesk)", fontSize: "1.1rem" }}
                   >
                     {phase.name}
                   </div>

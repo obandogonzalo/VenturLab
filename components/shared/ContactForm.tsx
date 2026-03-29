@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
 
 const services = [
   "Branding & ADN de Marca",
@@ -38,14 +37,18 @@ export default function ContactForm() {
     if (!formRef.current) return;
     setState("loading");
     try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-      setState("success");
-      formRef.current.reset();
+      const formData = new FormData(formRef.current);
+      const res = await fetch("/contact.php", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setState("success");
+        formRef.current.reset();
+      } else {
+        setState("error");
+      }
     } catch {
       setState("error");
     }
@@ -121,7 +124,15 @@ export default function ContactForm() {
 
       {state === "error" && (
         <p className="text-xs" style={{ color: "#DC2626" }}>
-          Hubo un error al enviar. Por favor intenta nuevamente o escríbenos por WhatsApp.
+          Hubo un error al enviar. Por favor intenta nuevamente o{" "}
+          <a
+            href="https://wa.me/56994509752"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#DC2626", textDecoration: "underline", fontWeight: 600 }}
+          >
+            escríbenos por WhatsApp
+          </a>.
         </p>
       )}
 

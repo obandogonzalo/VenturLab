@@ -3,98 +3,30 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const autorServices = [
-  { name: "Branding & ADN de Marca",              desc: "Propósito, naming, voz y universo visual completo." },
-  { name: "Diseño de Producto Digital (UX/UI)",   desc: "Plataformas y ecosistemas centrados en el usuario." },
-  { name: "Consultoría Digital & Performance",    desc: "Auditorías UX, automatización y marketing de precisión." },
+const allServices = [
+  { name: "Branding & ADN de Marca", desc: "Propósito, naming, voz y universo visual completo.", icon: "◈" },
+  { name: "Diseño de Producto Digital (UX/UI)", desc: "Plataformas y ecosistemas centrados en el usuario.", icon: "◎" },
+  { name: "Consultoría Digital & Performance", desc: "Auditorías UX, automatización y marketing de precisión.", icon: "◉" },
+  { name: "Identity Pack", desc: "Kit esencial: logotipo, paleta y tipografía.", icon: "◇" },
+  { name: "Landing Page", desc: "Estructuras optimizadas para conversión directa.", icon: "◈" },
+  { name: "Web Corporativa", desc: "Ecosistemas institucionales con CMS integrado.", icon: "◉" },
+  { name: "Presentaciones de Impacto", desc: "Diseño visual estratégico para ventas e inversión.", icon: "✦" },
 ];
-
-const modularServices = [
-  { name: "Identity Pack",               desc: "Kit esencial: logotipo, paleta y tipografía." },
-  { name: "Landing Page",                desc: "Estructuras optimizadas para conversión directa." },
-  { name: "Web Corporativa",             desc: "Ecosistemas institucionales con CMS integrado." },
-  { name: "Presentaciones de Impacto",   desc: "Diseño visual estratégico para ventas e inversión." },
-];
-
-function ServiceColumn({
-  label,
-  badge,
-  services,
-  ctaText,
-  ctaHref,
-  delay,
-}: {
-  label: string;
-  badge: string;
-  services: { name: string; desc: string }[];
-  ctaText: string;
-  ctaHref: string;
-  delay: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="card p-8 flex flex-col gap-6"
-    >
-      {/* Badge */}
-      <div className="flex items-center gap-3">
-        <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold"
-          style={{
-            background: "var(--accent-dim)",
-            color: "var(--accent)",
-            fontFamily: "var(--font-space-grotesk)",
-            border: "1px solid var(--accent-muted)",
-          }}
-        >
-          {badge}
-        </div>
-        <p className="label-tag">{label}</p>
-      </div>
-
-      {/* Services list */}
-      <ul className="flex flex-col">
-        {services.map((s, i) => (
-          <li
-            key={s.name}
-            className="py-4 flex flex-col gap-0.5"
-            style={{ borderTop: i === 0 ? "1px solid var(--border)" : "1px solid var(--border)" }}
-          >
-            <span
-              className="text-sm font-semibold"
-              style={{ color: "var(--text-1)", fontFamily: "var(--font-space-grotesk)" }}
-            >
-              {s.name}
-            </span>
-            <span className="text-xs leading-relaxed" style={{ color: "var(--text-2)" }}>
-              {s.desc}
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA */}
-      <Link
-        href={ctaHref}
-        className="inline-flex items-center gap-2 text-sm font-medium mt-auto transition-colors group/link"
-        style={{ color: "var(--accent)", fontFamily: "var(--font-space-grotesk)" }}
-      >
-        <span>{ctaText}</span>
-        <span className="transition-transform duration-200 group-hover/link:translate-x-1">→</span>
-      </Link>
-    </motion.div>
-  );
-}
 
 export default function ServicesPreview() {
   return (
-    <section className="py-28 px-6" style={{ background: "#FFFFFF" }}>
-      <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
+    <section className="py-28 px-6 relative overflow-hidden" style={{ background: "#1A9E85" }}>
+      {/* Trama de líneas — sutil, estilo hero */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px)",
+        backgroundSize: "40px 40px",
+        opacity: 0.8,
+      }} />
+      {/* Brillos verdes claros */}
+      <div className="absolute pointer-events-none" style={{ top: "-20%", right: "-10%", width: "60%", height: "95%", background: "radial-gradient(ellipse, rgba(180,255,235,1) 0%, transparent 60%)", filter: "blur(38px)" }} />
+      <div className="absolute pointer-events-none" style={{ bottom: "-10%", left: "-10%", width: "55%", height: "75%", background: "radial-gradient(ellipse, rgba(110,255,218,1) 0%, transparent 60%)", filter: "blur(38px)" }} />
+      <div className="absolute pointer-events-none" style={{ top: "20%", left: "25%", width: "50%", height: "60%", background: "radial-gradient(ellipse, rgba(215,255,244,0.88) 0%, transparent 60%)", filter: "blur(42px)" }} />
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -103,38 +35,42 @@ export default function ServicesPreview() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14"
         >
           <div>
-            <p className="label-tag mb-4">Servicios</p>
-            <h2 className="heading-lg" style={{ color: "var(--text-1)" }}>
-              Dualidad estratégica
+            <p className="label-tag mb-4" style={{ color: "rgba(255,255,255,0.7)" }}>Servicios</p>
+            <h2 className="heading-lg" style={{ color: "#FFFFFF" }}>
+              Conoce nuestros servicios
             </h2>
           </div>
           <Link
             href="/servicios"
             className="text-sm font-medium animated-underline self-start md:self-end"
-            style={{ color: "var(--accent)", fontFamily: "var(--font-space-grotesk)" }}
+            style={{ color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-space-grotesk)" }}
           >
-            Descubre qué solución necesita tu marca →
+            Ver todos los servicios →
           </Link>
         </motion.div>
 
-        {/* Two columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <ServiceColumn
-            label="Proyectos de Autor"
-            badge="A"
-            services={autorServices}
-            ctaText="Ver proyectos de autor"
-            ctaHref="/servicios"
-            delay={0}
-          />
-          <ServiceColumn
-            label="Soluciones Modulares"
-            badge="M"
-            services={modularServices}
-            ctaText="Ver soluciones modulares"
-            ctaHref="/servicios"
-            delay={0.1}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {allServices.map((s, i) => (
+            <motion.div
+              key={s.name}
+              initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="p-6 flex flex-col gap-3 rounded-2xl"
+              style={{
+                background: "rgba(255,255,255,0.80)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border: "1px solid rgba(255,255,255,0.60)",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+                minHeight: 160,
+              }}
+            >
+              <h3 className="heading-md leading-snug" style={{ color: "var(--text-1)", fontFamily: "var(--font-space-grotesk)" }}>{s.name}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{s.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

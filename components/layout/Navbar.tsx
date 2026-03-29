@@ -2,38 +2,27 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
+  { href: "/", label: "Inicio" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/metodologia", label: "Metodología" },
-  { href: "/portafolio", label: "Portafolio" },
   { href: "/nosotros", label: "Nosotros" },
+  { href: "/contacto", label: "Contacto" },
 ];
 
-function Logo() {
+function Logo({ scrolled, isHome }: { scrolled: boolean; isHome: boolean }) {
   return (
-    <div className="flex items-center" style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 700, fontSize: "1.125rem", letterSpacing: "-0.02em" }}>
-      <span style={{ color: "var(--text-1)" }}>Ventur</span>
-      <span
-        style={{
-          background: "linear-gradient(135deg, #7C6FF5, #C084FC)",
-          borderRadius: 8,
-          padding: "1px 8px 2px",
-          color: "#fff",
-          marginLeft: 1,
-          fontSize: "1rem",
-        }}
-      >
-        lab
-      </span>
-    </div>
+    <img src={!scrolled && isHome ? "/logo-white.svg" : "/logo.svg"} alt="VenturLab" style={{ height: 44, width: "auto", maxWidth: 200 }} />
   );
 }
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -67,7 +56,7 @@ export default function Navbar() {
         <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Logo />
+            <Logo scrolled={scrolled} isHome={isHome} />
           </Link>
 
           {/* Desktop nav */}
@@ -76,10 +65,10 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="px-4 py-2 text-sm transition-colors duration-200 animated-underline"
-                  style={{ color: "var(--text-2)", fontFamily: "var(--font-space-grotesk)" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = "var(--accent)")}
-                  onMouseLeave={e => (e.currentTarget.style.color = "var(--text-2)")}
+                  className="px-4 py-2 text-[15px] font-semibold transition-colors duration-200 animated-underline"
+                  style={{ color: (!scrolled && isHome) ? "rgba(255,255,255,0.90)" : "var(--text-1)", fontFamily: "var(--font-space-grotesk)" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = (!scrolled && isHome) ? "rgba(255,255,255,1)" : "var(--accent)")}
+                  onMouseLeave={e => (e.currentTarget.style.color = (!scrolled && isHome) ? "rgba(255,255,255,0.90)" : "var(--text-1)")}
                 >
                   {link.label}
                 </Link>
@@ -89,12 +78,12 @@ export default function Navbar() {
 
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/contacto"
+            <a
+              href="mailto:hola@venturlab.cl"
               className="hidden md:inline-flex btn-primary !py-2 !px-5 !text-sm"
             >
               Hablemos
-            </Link>
+            </a>
 
             {/* Hamburger — bars oscuras (visibles sobre fondo blanco) */}
             <button
@@ -105,17 +94,17 @@ export default function Navbar() {
               <motion.span
                 animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
                 className="block w-5 h-px origin-center"
-                style={{ background: "var(--text-1)" }}
+                style={{ background: (!scrolled && isHome) ? "rgba(255,255,255,0.90)" : "var(--text-1)" }}
               />
               <motion.span
                 animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
                 className="block w-5 h-px"
-                style={{ background: "var(--text-1)" }}
+                style={{ background: (!scrolled && isHome) ? "rgba(255,255,255,0.90)" : "var(--text-1)" }}
               />
               <motion.span
                 animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
                 className="block w-5 h-px origin-center"
-                style={{ background: "var(--text-1)" }}
+                style={{ background: (!scrolled && isHome) ? "rgba(255,255,255,0.90)" : "var(--text-1)" }}
               />
             </button>
           </div>

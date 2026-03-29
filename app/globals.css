@@ -28,20 +28,22 @@
 @theme inline {
   --font-space-grotesk: var(--font-space-grotesk);
   --font-inter: var(--font-inter);
-  --color-accent: #7C6FF5;
+  --color-accent: #3D52D5;
 }
 
 :root {
   /* ── Fondos (jerarquía clara) ── */
   --bg:   #FFFFFF;    /* Base — blanco puro */
-  --bg-2: #F9F8FC;    /* Elevado — tinte morado barely-there */
-  --bg-3: #F3F0FA;    /* Alto — tags, fondos secundarios */
+  --bg-2: #F8F9FE;    /* Elevado — tinte azul barely-there */
+  --bg-3: #EFF1FC;    /* Alto — tags, fondos secundarios */
 
-  /* ── Acento "Indigo" — igual que el logo ── */
-  --accent:        #7C6FF5;
-  --accent-lt:     #9D94F7;
-  --accent-dim:    rgba(124, 111, 245, 0.06);
-  --accent-muted:  rgba(124, 111, 245, 0.10);
+  /* ── Acento "Azul" — igual que el logo ── */
+  --accent:        #3D52D5;
+  --accent-lt:     #6273E8;
+  --accent-dim:    rgba(61, 82, 213, 0.06);
+  --accent-muted:  rgba(61, 82, 213, 0.10);
+  --accent-teal:   #5EC9A8;
+  --accent-purple: #7C6FF5;
 
   /* ── Textos ── */
   --text-1: #0A0A0F;  /* Principal — casi negro */
@@ -49,14 +51,14 @@
   --text-3: #A09DB8;  /* Terciario — etiquetas */
 
   /* ── Bordes ── */
-  --border:      #ECEAF5;   /* 1px, Apple-style */
+  --border:      #E8EBF7;   /* 1px, Apple-style */
   --border-soft: #F5F3FB;
 
   /* ── Sombras ── */
   --shadow-sm:     0 1px 4px rgba(0, 0, 0, 0.04);
   --shadow-md:     0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
   --shadow-hover:  0 8px 32px rgba(0, 0, 0, 0.09), 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-accent: 0 4px 24px rgba(124, 111, 245, 0.18);
+  --shadow-accent: 0 4px 24px rgba(61, 82, 213, 0.18);
 
   /* ── Radios ── */
   --r-sm:   8px;
@@ -86,11 +88,11 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar         { width: 4px; }
 ::-webkit-scrollbar-track   { background: var(--bg-2); }
-::-webkit-scrollbar-thumb   { background: rgba(124, 111, 245, 0.25); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(124, 111, 245, 0.45); }
+::-webkit-scrollbar-thumb   { background: rgba(61, 82, 213, 0.25); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(61, 82, 213, 0.45); }
 
 /* Selection */
-::selection { background: rgba(124, 111, 245, 0.15); color: var(--accent); }
+::selection { background: rgba(61, 82, 213, 0.15); color: var(--accent); }
 
 /* Focus */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
@@ -179,7 +181,11 @@ body {
 }
 
 .gradient-text {
-  color: var(--accent);
+  background: linear-gradient(135deg, #5520E8 0%, #D018F8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
 }
 
 
@@ -187,7 +193,7 @@ body {
    6. BUTTON SYSTEM
    ═══════════════════════════════════════════════════ */
 
-/* Primario — fill sólido */
+/* Primario — fill degradado */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -196,19 +202,19 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: #fff;
-  background: var(--accent);
+  background: linear-gradient(135deg, #6427E3 0%, #B625EF 100%);
   border: none;
   border-radius: var(--r-full);
   cursor: pointer;
   transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
-  box-shadow: 0 2px 12px rgba(124, 111, 245, 0.22);
+  box-shadow: 0 2px 16px rgba(100, 39, 227, 0.30);
   text-decoration: none;
 }
 .btn-primary:hover {
-  opacity: 0.88;
+  opacity: 0.9;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-accent);
+  box-shadow: 0 6px 28px rgba(100, 39, 227, 0.38);
 }
 .btn-primary:active { transform: translateY(0); opacity: 1; }
 
@@ -364,4 +370,28 @@ body {
 .separator {
   height: 1px;
   background: var(--border);
+}
+
+
+/* ═══════════════════════════════════════════════════
+   11. HERO GRADIENT ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+
+@keyframes gradient-drift {
+  0%, 100% { opacity: 0.6; transform: scale(1) translate(0, 0); }
+  33%       { opacity: 0.8; transform: scale(1.08) translate(2%, 1%); }
+  66%       { opacity: 0.5; transform: scale(0.95) translate(-1%, 2%); }
+}
+@keyframes gradient-drift-2 {
+  0%, 100% { opacity: 0.4; transform: scale(1) translate(0, 0); }
+  50%       { opacity: 0.7; transform: scale(1.12) translate(-2%, -2%); }
+}
+@keyframes gradient-drift-3 {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  40%       { opacity: 0.6; transform: scale(1.06) translate(1%, -1%); }
+}
+
+@keyframes grid-fade {
+  0%, 100% { opacity: 0.03; }
+  50%       { opacity: 0.06; }
 }

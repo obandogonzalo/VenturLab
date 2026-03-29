@@ -67,7 +67,7 @@ export default function CtaBanner() {
             Hablemos de tu proyecto →
           </Link>
           <a
-            href="https://wa.me/56900000000"
+            href="https://wa.me/56994509752"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline-invert px-8 py-4 text-base"
